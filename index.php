@@ -32,14 +32,17 @@ function readData() {
 }
 
 function writeData() {
+    date_default_timezone_get('Asia/Tokyo');
     $personal_name = $_POST['personal_name'];
     $contents = $_POST['contents'];
     $contents = nl2br($contents);
 
     $data = "<hr>\n";
+    $data = $data."<p>時間：".date("Y/m/d H:i:s")."<p>";
     $data = $data."<p>投稿者:".$personal_name."</p>\n";
     $data = $data."<p>内容:</p>\n";
     $data = $data."<p>".$contents."</p>\n";
+    
 
     $fp = fopen(THREAD_FILE, 'a');
 
