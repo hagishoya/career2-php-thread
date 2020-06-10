@@ -51,7 +51,7 @@
                 if(flock($fp,LOCK_EX)){
 
                     $save = fgets($fp);
-                    date();
+                    
                     echo date("Y/m/d H:i:s")."/n";
                     fwrite($fp,'<p>投稿者:'.$personal_name."<br>");
                     fwrite($fp,'<p>内　容:'.$contents."<br>");
