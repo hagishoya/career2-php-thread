@@ -14,14 +14,28 @@
 </form>
 
 <form action="index.php" method="post">
-    <input type="submit" name = "buttan" value = "削除する" />
+    <input type="hidden" name = "method" value = "DELETE" />
+    <button type = "submit">投稿を全削除する</button>
 </form>
 
 <h2>スレッド</h2>
 
-<?php
 
+
+
+
+
+
+
+
+
+
+
+<?php
+//外部変数
 const THREAD_FILE = 'thread.txt';
+
+
 
 function readData() {
     // ファイルが存在しなければデフォルト空文字のファイルを作成する
@@ -41,16 +55,28 @@ function writeData() {
     $contents = $_POST['contents'];
     $contents = nl2br($contents);
 
-    $data = "<hr>\n";
-    $data = $data."<p>時間：".date("Y/m/d H:i:s")."<p>";
-    $data = $data."<p>投稿者:".$personal_name."</p>\n";
-    $data = $data."<p>内容:</p>\n";
-    $data = $data."<p>".$contents."</p>\n";
+    //$data = "<hr>\n";
+    //$data = $data."<p>時間：".date("Y/m/d H:i:s")."<p>";
+    //$data = $data."<p>投稿者:".$personal_name."</p>\n";
+    //$data = $data."<p>内容:</p>\n";
+    //$data = $data."<p>".$contents."</p>\n";
     
 
-    $fp = fopen(THREAD_FILE, 'a');
+
+
+    $fp = fopen(THREAD_FILE, 'ab');
 
     if ($fp){
+
+
+        $save = fgets($fp);
+                    
+        fwrite($fp,'<p>時間：'.date("Y/m/d H:i:s").'<br>');
+        //echo date("Y/m/d H:i:s")."/n";
+        fwrite($fp,'<p>投稿者:'.$personal_name."<br>");
+        fwrite($fp,'<p>内　容:'.$contents."<br>");
+
+
         if (flock($fp, LOCK_EX)){
             if (fwrite($fp,  $data) === FALSE){
                 print('ファイル書き込みに失敗しました');
@@ -71,8 +97,20 @@ function writeData() {
 }
 
 
+function deleteData(){
+    file_put_contents(THREAD_FILE,"");
+}
+
+
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    writeData();
+    if(isset($_POST['method']) && $_POST['method']=== "DELETE"){
+        deleteData();
+    }
+    else{
+        writeData();
+    }
+    
 }
 
 readData();
