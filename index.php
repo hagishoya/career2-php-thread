@@ -13,7 +13,8 @@
     <input type="submit" name="btn" value="投稿する">
 </form>
 
-<form method="POST" action="<?php print($_SERVER['???????????????']) ?>">
+<form action="index.php" method="post">
+    <input type="submit" name = "buttan" value = "削除する" />
 </form>
 
 <h2>スレッド</h2>
