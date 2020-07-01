@@ -1,3 +1,38 @@
+<?php
+
+/**
+ * 職業実践2 - 掲示板アプリ
+ */
+
+session_start();
+new Thread();
+
+function setToken()
+{
+    $token = sha1(uniqid(mt_rand(), true));
+    $_SESSION['token'] = $token;
+}
+
+function checkToken()
+{
+    if (empty($_SESSION['token'])) {
+        echo "Sessionが空です";
+        exit;
+    }
+
+    if (($_SESSION['token']) !== $_POST['token']) {
+        echo "不正な投稿です。";
+        exit;
+    }
+
+    $_SESSION['token'] = null;
+}
+
+if (empty($_SESSION['token'])) {
+    setToken();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -35,24 +70,24 @@
 
 
 
-
 <?php
 //外部変数
 const THREAD_FILE = 'thread.txt';
+require_once './Thread.php';
+$thread = new Thread('掲示板App');
 
 
+// function readData() {
+//     // ファイルが存在しなければデフォルト空文字のファイルを作成する
+//     if (! file_exists(THREAD_FILE)) {
+//         $fp = fopen(THREAD_FILE, 'w');
+//         fwrite($fp, '');
+//         fclose($fp);
+//     }
 
-function readData() {
-    // ファイルが存在しなければデフォルト空文字のファイルを作成する
-    if (! file_exists(THREAD_FILE)) {
-        $fp = fopen(THREAD_FILE, 'w');
-        fwrite($fp, '');
-        fclose($fp);
-    }
-
-    $thread_text = file_get_contents(THREAD_FILE);
-    echo $thread_text;
-}
+//     $thread_text = file_get_contents(THREAD_FILE);
+//     echo $thread_text;
+// }
 
 function writeData() {
     date_default_timezone_get('Asia/Tokyo');
@@ -119,8 +154,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //git pull origin master
 }
 
-readData();
+//readData();
 
+$thread_data = $thread->getList();
+echo $thread_data;
 ?>
 
 
