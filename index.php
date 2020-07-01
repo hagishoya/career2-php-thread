@@ -3,9 +3,10 @@
 /**
  * 職業実践2 - 掲示板アプリ
  */
+//デプロイ
+    //git pull origin master
 
 session_start();
-new thread();
 
 function setToken()
 {
@@ -76,67 +77,6 @@ const THREAD_FILE = 'thread.txt';
 require_once './Thread.php';
 $thread = new Thread('掲示板App');
 
-
-// function readData() {
-//     // ファイルが存在しなければデフォルト空文字のファイルを作成する
-//     if (! file_exists(THREAD_FILE)) {
-//         $fp = fopen(THREAD_FILE, 'w');
-//         fwrite($fp, '');
-//         fclose($fp);
-//     }
-
-//     $thread_text = file_get_contents(THREAD_FILE);
-//     echo $thread_text;
-// }
-
-function writeData() {
-    date_default_timezone_get('Asia/Tokyo');
-    $personal_name = $_POST['personal_name'];
-    $contents = $_POST['contents'];
-    $contents = nl2br($contents);
-
-    //$data = "<hr>\n";
-    //$data = $data."<p>時間：".date("Y/m/d H:i:s")."<p>";
-    //$data = $data."<p>投稿者:".$personal_name."</p>\n";
-    //$data = $data."<p>内容:</p>\n";
-    //$data = $data."<p>".$contents."</p>\n";
-    
-
-
-
-    $fp = fopen(THREAD_FILE, 'ab');
-
-    if ($fp){
-
-
-        $save = fgets($fp);
-                    
-        fwrite($fp,'<p>時間：'.date("Y/m/d H:i:s").'<br>');
-        //echo date("Y/m/d H:i:s")."/n";
-        fwrite($fp,'<p>投稿者:'.$personal_name."<br>");
-        fwrite($fp,'<p>内　容:'.$contents."<br>");
-
-
-        if (flock($fp, LOCK_EX)){
-            if (fwrite($fp,  $data) === FALSE){
-                print('ファイル書き込みに失敗しました');
-            }
-
-            flock($fp, LOCK_UN);
-        }else{
-            print('ファイルロックに失敗しました');
-        }
-    }
-
-    fclose($fp);
-
-    // ブラウザのリロード対策
-    $redirect_url = $_SERVER['HTTP_REFERER'];
-    header("Location: $redirect_url");
-    exit;
-}
-
-
 function deleteData(){
     file_put_contents(THREAD_FILE,"");
 }
@@ -148,13 +88,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         deleteData();
     }
     else{
-        writeData();
+        $thread->post($_POST['personal_name'], $_POST['contents']);
     }
-    //デプロイ
-    //git pull origin master
-}
 
-//readData();
+    $redirect_url = $_SERVER['HTTP_REFERER'];
+    header("Location: $redirect_url");
+    exit;
+}
 
 $thread_data = $thread->getList();
 echo $thread_data;
@@ -169,3 +109,18 @@ echo $thread_data;
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
