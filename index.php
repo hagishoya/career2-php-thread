@@ -74,7 +74,7 @@ if (empty($_SESSION['token'])) {
 <?php
 //外部変数
 const THREAD_FILE = 'thread.txt';
-require_once './Thread.php';
+require_once 'thread.php';
 $thread = new Thread('掲示板App');
 
 function deleteData(){
