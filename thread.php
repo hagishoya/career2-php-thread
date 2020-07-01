@@ -27,8 +27,9 @@ class Thread {
         file_put_contents(self::THREAD_FILE,$data,FILE_APPEND);
     }
 
-    public function delete() {
-    
+    public function delete()
+    {
+        file_put_contents(self::THREAD_FILE,"");
     }
 }
 ?>
