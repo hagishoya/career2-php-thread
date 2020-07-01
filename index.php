@@ -5,7 +5,7 @@
  */
 
 session_start();
-new Thread();
+new thread();
 
 function setToken()
 {
