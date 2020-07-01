@@ -7,7 +7,7 @@
 <title>掲示板</title>
 </head>
 <body>
-
+//aa
 <h1>掲示板App</h1>
 
 <h2>投稿フォーム</h2>
