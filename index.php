@@ -85,7 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     else{
         $thread->post($_POST['personal_name'], $_POST['contents']);
     }
-
+    
+    // ブラウザのリロード対策
     $redirect_url = $_SERVER['HTTP_REFERER'];
     header("Location: $redirect_url");
     exit;
